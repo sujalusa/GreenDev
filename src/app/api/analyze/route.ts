@@ -12,6 +12,7 @@ import { buildPlainEnglishPrompt, FALLBACK_TEXT as PE_FALLBACK } from '@/prompts
 import { buildTechnicalPrompt, FALLBACK_TEXT as TECH_FALLBACK } from '@/prompts/technical';
 import { buildSustainabilityPrompt, FALLBACK_TEXT as SUST_FALLBACK } from '@/prompts/sustainability';
 import { buildPitchPrompt, FALLBACK_TEXT as PITCH_FALLBACK } from '@/prompts/pitch';
+import { buildCodeAnalysisPrompt } from '@/prompts/code-analysis';
 import { MOCK_RESULT } from '@/data/mock-result';
 import { supabaseAdmin } from '@/lib/supabase';
 import { ScanRequest, AnalysisResult, Issue } from '@/types';
@@ -126,14 +127,62 @@ export async function POST(req: NextRequest) {
       packageJsonPath ? fetchFileContent(owner, repo, packageJsonPath) : Promise.resolve({ success: false, data: null, error: null }),
     ]);
 
-    // 5. Run all analysis engines in parallel
-    const [ciIssues, dockerIssues, assetIssues, computeIssues, regionIssues] = await Promise.all([
+    // 4b. Identify and fetch source files for AI code analysis
+    const sourceFileMatchers = [
+      (p: string) => p.startsWith('src/app/api/') && (p.endsWith('.ts') || p.endsWith('.js')),
+      (p: string) => p.startsWith('src/lib/') && (p.endsWith('.ts') || p.endsWith('.js')),
+      (p: string) => p.startsWith('pages/api/') && (p.endsWith('.ts') || p.endsWith('.js')),
+      (p: string) => p.startsWith('lib/') && (p.endsWith('.ts') || p.endsWith('.js')),
+      (p: string) => p.startsWith('api/') && (p.endsWith('.ts') || p.endsWith('.js') || p.endsWith('.py')),
+      (p: string) => p.startsWith('src/routes/') && (p.endsWith('.ts') || p.endsWith('.js')),
+    ];
+    const sourceFilePaths = filePaths
+      .filter((p) => sourceFileMatchers.some((fn) => fn(p)))
+      .slice(0, 6);
+
+    const sourceFiles = (
+      await Promise.all(
+        sourceFilePaths.map(async (p) => {
+          const r = await fetchFileContent(owner, repo, p);
+          return r.success && r.data ? { path: p, content: r.data } : null;
+        })
+      )
+    ).filter(Boolean) as { path: string; content: string }[];
+
+    // 5. Run all analysis engines + AI code analysis in parallel
+    const [ciIssues, dockerIssues, assetIssues, computeIssues, regionIssues, codeAnalysisRaw] = await Promise.all([
       Promise.resolve(analyzeCICD(workflowContents)),
       Promise.resolve(analyzeDocker(dockerfileResult.data, hasDockerignore)),
       Promise.resolve(analyzeAssets(packageJsonResult.data, tree)),
       Promise.resolve(analyzeCompute(deploymentConfig as any)),
       Promise.resolve(analyzeRegion(deploymentConfig.region, deploymentConfig.cloudProvider)),
+      sourceFiles.length > 0
+        ? invokeClaudeSafe(
+            buildCodeAnalysisPrompt(sourceFiles, repoUrl, deploymentConfig.frontendFramework, metaResult.data?.language),
+            '[]'
+          )
+        : Promise.resolve('[]'),
     ]);
+
+    // Parse AI-detected issues
+    let aiIssues: Issue[] = [];
+    try {
+      const parsed = JSON.parse(codeAnalysisRaw);
+      if (Array.isArray(parsed)) {
+        aiIssues = parsed
+          .filter((item: any) => item && typeof item.title === 'string')
+          .map((item: any) => ({
+            id: `ai-${(item.title as string).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`,
+            category: (['compute', 'assets', 'dependencies', 'ci-cd', 'storage', 'networking'].includes(item.category) ? item.category : 'compute') as Issue['category'],
+            title: item.title as string,
+            description: (item.description as string) || '',
+            impact: (['HIGH', 'MEDIUM', 'LOW'].includes(item.impact) ? item.impact : 'LOW') as Issue['impact'],
+            affectedFiles: Array.isArray(item.affectedFiles) ? item.affectedFiles : undefined,
+          }));
+      }
+    } catch {
+      // JSON parse failed — skip AI issues
+    }
 
     const allIssues: Issue[] = [
       ...ciIssues,
@@ -141,6 +190,7 @@ export async function POST(req: NextRequest) {
       ...assetIssues,
       ...computeIssues,
       ...regionIssues,
+      ...aiIssues,
     ];
 
     console.log(`[API /analyze] Found ${allIssues.length} issues across all engines.`);
