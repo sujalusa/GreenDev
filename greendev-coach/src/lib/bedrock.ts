@@ -16,7 +16,7 @@ export async function invokeClaude(prompt: string): Promise<string> {
   };
 
   const command = new InvokeModelCommand({
-    modelId: 'anthropic.claude-sonnet-4-6',
+    modelId: 'global.anthropic.claude-sonnet-4-6',
     contentType: 'application/json',
     accept: 'application/json',
     body: JSON.stringify(payload),
