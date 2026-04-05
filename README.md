@@ -177,4 +177,3 @@ MIT License. Built for the Amazon Sustainability Track Hackathon.
 ## Contributing
 
 Pull requests welcome. Please ensure code follows the existing style and includes tests for new analysis rules.
-# Deployment triggered
