@@ -1,0 +1,63 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e72]
+  - generic [ref=e347]:
+    - banner [ref=e348]:
+      - link "GreenDev Coach home" [ref=e349] [cursor=pointer]:
+        - /url: /
+        - img [ref=e350]:
+          - generic [ref=e353]: ">_"
+        - generic [ref=e354]: GreenDev Coach
+      - navigation "Breadcrumb" [ref=e356]:
+        - link "Home" [ref=e358] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e359]:
+          - generic [ref=e360]: /
+          - link "Configure" [ref=e361] [cursor=pointer]:
+            - /url: /analyze
+        - generic [ref=e362]:
+          - generic [ref=e363]: /
+          - link "Results" [ref=e364] [cursor=pointer]:
+            - /url: /results
+        - generic [ref=e365]:
+          - generic [ref=e366]: /
+          - generic [ref=e367]: Report
+      - generic [ref=e368]:
+        - button "Switch to dark mode" [ref=e369] [cursor=pointer]:
+          - img [ref=e370]
+        - button "New Scan" [ref=e372] [cursor=pointer]:
+          - img [ref=e373]
+          - generic [ref=e378]: New Scan
+    - main [ref=e379]:
+      - generic [ref=e380]:
+        - link "Back to Results" [ref=e381] [cursor=pointer]:
+          - /url: /results
+          - img [ref=e382]
+          - text: Back to Results
+        - button "← Start Over" [ref=e384] [cursor=pointer]
+      - heading "AI Sustainability Report" [level=1] [ref=e385]
+      - generic [ref=e387]:
+        - tablist "Report format" [ref=e388]:
+          - tab "Plain English" [selected] [ref=e389] [cursor=pointer]
+          - tab "Technical" [ref=e390] [cursor=pointer]
+          - tab "Sustainability" [ref=e391] [cursor=pointer]
+          - tab "Pitch-Ready" [ref=e392] [cursor=pointer]
+        - tabpanel "Plain English" [ref=e393]:
+          - article [ref=e394]:
+            - paragraph [ref=e395]: Your project scored 25/100. We identified 6 sustainability issues. The most impactful changes you can make right now are to review your compute architecture, optimize your CI/CD pipeline, and update your Docker base images. Each of these changes, taken individually, can meaningfully reduce both your cloud costs and your carbon footprint.
+      - generic [ref=e397]:
+        - heading "Share this report" [level=3] [ref=e398]
+        - generic [ref=e399]:
+          - button "Copy Link" [ref=e400] [cursor=pointer]:
+            - img [ref=e401]
+            - text: Copy Link
+          - button "Print / PDF" [ref=e404] [cursor=pointer]:
+            - img [ref=e405]
+            - text: Print / PDF
+          - button "Share" [ref=e408] [cursor=pointer]:
+            - img [ref=e409]
+            - text: Share
+      - paragraph [ref=e415]: "Scan ID: 225c5298-7cb3-4f95-b36f-497d928d2b56 · Scanned at 4/4/2026, 7:18:45 PM · vercel/next.js"

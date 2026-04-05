@@ -142,25 +142,55 @@ export function calculateBeforeAfter(
   config: DeploymentConfig,
   issues: Issue[]
 ): { before: BeforeAfterState; after: BeforeAfterState } {
-  const isAlwaysOn = (config.cloudService === 'EC2' || config.cloudService === 'Compute Engine' || config.cloudService === 'Auto-Detect / Unknown') && !config.isServerless;
+  // If no issues detected, before = after (nothing to optimize)
+  if (issues.length === 0) {
+    const baseComputeHours = (config.cloudService === 'EC2' || config.cloudService === 'Compute Engine') && !config.isServerless ? 720 : 50;
+    const hasCI = config.cicdTool !== 'None';
+    const ciEveryPush = config.ciFrequency === 'every-push';
+    const baseCost = ((config.cloudService === 'EC2' || config.cloudService === 'Compute Engine') && !config.isServerless) ? 18.4 : 4.2;
+    const ciCost = hasCI && ciEveryPush ? 4.0 : 0;
+    const totalCost = baseCost + ciCost;
+    const baseCO2 = ((config.cloudService === 'EC2' || config.cloudService === 'Compute Engine') && !config.isServerless) ? 2.4 : 0.6;
+
+    return {
+      before: {
+        monthlyComputeHours: baseComputeHours,
+        monthlyCIRuns: hasCI ? (ciEveryPush ? 120 : 30) : 0,
+        estimatedMonthlyCost: `$${totalCost.toFixed(2)}`,
+        estimatedMonthlyCO2: `${baseCO2.toFixed(1)}kg`,
+        label: 'before',
+      },
+      after: {
+        monthlyComputeHours: baseComputeHours,
+        monthlyCIRuns: hasCI ? (ciEveryPush ? 120 : 30) : 0,
+        estimatedMonthlyCost: `$${totalCost.toFixed(2)}`,
+        estimatedMonthlyCO2: `${baseCO2.toFixed(1)}kg`,
+        label: 'after',
+      },
+    };
+  }
+
+  // If issues exist, calculate potential savings
+  const hasAlwaysOnIssue = issues.some(i => i.id?.includes('always-on') || i.id?.includes('vm'));
+  const hasCICost = issues.some(i => i.category === 'ci-cd');
   const hasCI = config.cicdTool !== 'None';
   const ciEveryPush = config.ciFrequency === 'every-push';
 
-  // BEFORE state
-  const beforeComputeHours = isAlwaysOn ? 720 : 50;
+  // BEFORE state (current)
+  const beforeComputeHours = hasAlwaysOnIssue ? 720 : 50;
   const beforeCIRuns = hasCI ? (ciEveryPush ? 120 : 30) : 0;
 
-  let beforeCostNum = isAlwaysOn ? 18.4 : 4.2;
+  let beforeCostNum = hasAlwaysOnIssue ? 18.4 : 4.2;
   if (hasCI && ciEveryPush) beforeCostNum += 4.0;
-  const beforeCO2Num = isAlwaysOn ? 2.4 : 0.6;
+  const beforeCO2Num = hasAlwaysOnIssue ? 2.4 : 0.6;
 
-  // AFTER: apply all recommendations
-  const afterComputeHours = isAlwaysOn ? 48 : beforeComputeHours;
-  const afterCIRuns = ciEveryPush ? 30 : beforeCIRuns;
+  // AFTER state (with optimizations for detected issues)
+  const afterComputeHours = hasAlwaysOnIssue ? 48 : beforeComputeHours;
+  const afterCIRuns = hasCICost && ciEveryPush ? 30 : beforeCIRuns;
 
-  let afterCostNum = isAlwaysOn ? 3.2 : beforeCostNum;
-  if (ciEveryPush) afterCostNum = Math.max(afterCostNum - 2.5, 1.0);
-  const afterCO2Num = isAlwaysOn ? 0.4 : beforeCO2Num * 0.6;
+  let afterCostNum = hasAlwaysOnIssue ? 3.2 : beforeCostNum;
+  if (hasCICost && ciEveryPush) afterCostNum = Math.max(afterCostNum - 2.5, 1.0);
+  const afterCO2Num = hasAlwaysOnIssue ? 0.4 : beforeCO2Num * 0.6;
 
   return {
     before: {

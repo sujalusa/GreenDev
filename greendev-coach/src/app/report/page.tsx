@@ -20,6 +20,18 @@ const TAB_CONFIG = [
   { id: 'pitch', label: 'Pitch-Ready', icon: Megaphone, description: 'Executive summary for stakeholders' },
 ];
 
+function stripMarkdown(text: string): string {
+  // Remove markdown bold: **text** or __text__ → text
+  let cleaned = text.replace(/\*\*(.+?)\*\*/g, '$1');
+  cleaned = cleaned.replace(/__(.+?)__/g, '$1');
+  // Remove markdown italic: *text* or _text_ → text
+  cleaned = cleaned.replace(/\*(.+?)\*/g, '$1');
+  cleaned = cleaned.replace(/_(.+?)_/g, '$1');
+  // Remove markdown code: `text` → text
+  cleaned = cleaned.replace(/`(.+?)`/g, '$1');
+  return cleaned;
+}
+
 function renderReport(text: string) {
   if (!text) return <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Report not available.</p>;
 
@@ -31,7 +43,7 @@ function renderReport(text: string) {
         // Detect heading lines (short lines ending without punctuation or starting with #)
         const isHeading = para.startsWith('#') || (para.length < 80 && !para.endsWith('.') && !para.endsWith(',') && i > 0);
         if (para.startsWith('#')) {
-          const clean = para.replace(/^#+\s*/, '');
+          const clean = stripMarkdown(para.replace(/^#+\s*/, ''));
           return (
             <h3 key={i} className="text-sm font-bold pt-2" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
               {clean}
@@ -48,10 +60,10 @@ function renderReport(text: string) {
                 return isBullet ? (
                   <li key={j} className="flex gap-2 text-sm" style={{ color: 'var(--color-text)' }}>
                     <span style={{ color: 'var(--color-primary)' }}>→</span>
-                    <span>{line.replace(/^[-•]\s*/, '')}</span>
+                    <span>{stripMarkdown(line.replace(/^[-•]\s*/, ''))}</span>
                   </li>
                 ) : (
-                  <li key={j} className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>{line}</li>
+                  <li key={j} className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>{stripMarkdown(line)}</li>
                 );
               })}
             </ul>
@@ -59,7 +71,7 @@ function renderReport(text: string) {
         }
         return (
           <p key={i} className="text-sm leading-relaxed" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-body)' }}>
-            {para}
+            {stripMarkdown(para)}
           </p>
         );
       })}

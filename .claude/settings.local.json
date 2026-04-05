@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_console_messages",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|json\\)$\")",
+      "Bash(npx tsc:*)",
+      "Bash(dir srccomponentsui:*)",
+      "Bash(dir srcappapi:*)",
+      "Bash(find '/c/Users/rudhe/Downloads/Innovation Hacks/greendev-coach/src' -type f -name *.tsx)"
+    ]
+  }
+}

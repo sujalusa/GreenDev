@@ -487,29 +487,40 @@ export default function ResultsPage() {
               <h3 className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                 Top Fixes
               </h3>
-              {scanResult.recommendations.slice(0, 3).map((rec) => (
-                <div key={rec.id} className="space-y-1">
-                  <div className="flex items-start gap-2">
-                    <TrendingDown className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: 'var(--color-success)' }} />
-                    <p className="text-xs font-medium leading-snug" style={{ color: 'var(--color-text)' }}>
-                      {rec.title}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-1.5 pl-5">
-                    <Badge variant="effort" level={rec.effort} className="text-[10px]">
-                      {rec.effort}
-                    </Badge>
-                    {rec.estimatedCO2Saved && (
-                      <span className="text-[10px]" style={{ color: 'var(--color-success)' }}>
-                        saves {rec.estimatedCO2Saved}
-                      </span>
-                    )}
-                  </div>
+              {scanResult.recommendations.length === 0 ? (
+                <div className="py-4 text-center space-y-2">
+                  <p className="text-sm font-medium" style={{ color: 'var(--color-success)' }}>✓ No issues found!</p>
+                  <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                    Your deployment is already well-optimized. Great job keeping your carbon footprint low!
+                  </p>
                 </div>
-              ))}
-              <Button size="sm" variant="ghost" className="w-full text-xs" onClick={() => router.push('/recommendations')}>
-                See all {scanResult.recommendations.length} recommendations →
-              </Button>
+              ) : (
+                <>
+                  {scanResult.recommendations.slice(0, 3).map((rec) => (
+                    <div key={rec.id} className="space-y-1">
+                      <div className="flex items-start gap-2">
+                        <TrendingDown className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: 'var(--color-success)' }} />
+                        <p className="text-xs font-medium leading-snug" style={{ color: 'var(--color-text)' }}>
+                          {rec.title}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1.5 pl-5">
+                        <Badge variant="effort" level={rec.effort} className="text-[10px]">
+                          {rec.effort}
+                        </Badge>
+                        {rec.estimatedCO2Saved && (
+                          <span className="text-[10px]" style={{ color: 'var(--color-success)' }}>
+                            saves {rec.estimatedCO2Saved}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  <Button size="sm" variant="ghost" className="w-full text-xs" onClick={() => router.push('/recommendations')}>
+                    See all {scanResult.recommendations.length} recommendations →
+                  </Button>
+                </>
+              )}
             </Card>
           </motion.div>
         </div>

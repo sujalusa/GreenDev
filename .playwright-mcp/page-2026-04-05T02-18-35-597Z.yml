@@ -1,0 +1,81 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e72]
+  - generic [ref=e73]:
+    - banner [ref=e74]:
+      - link "GreenDev Coach home" [ref=e75] [cursor=pointer]:
+        - /url: /
+        - img [ref=e76]:
+          - generic [ref=e79]: ">_"
+        - generic [ref=e80]: GreenDev Coach
+      - navigation "Breadcrumb" [ref=e82]:
+        - link "Home" [ref=e84] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e85]:
+          - generic [ref=e86]: /
+          - generic [ref=e87]: Configure
+      - generic [ref=e88]:
+        - button "Switch to dark mode" [ref=e89] [cursor=pointer]:
+          - img [ref=e90]
+        - button "New Scan" [ref=e92] [cursor=pointer]:
+          - img [ref=e93]
+          - generic [ref=e98]: New Scan
+    - main [ref=e99]:
+      - link "Back to Home" [ref=e100] [cursor=pointer]:
+        - /url: /
+        - img [ref=e101]
+        - text: Back to Home
+      - generic "Step 2 of 4" [ref=e104]:
+        - generic [ref=e106]:
+          - generic [ref=e107]: ✓
+          - generic [ref=e108]: Analyze
+        - generic [ref=e111]:
+          - generic [ref=e112]: "2"
+          - generic [ref=e113]: Configure
+        - generic [ref=e116]:
+          - generic [ref=e117]: "3"
+          - generic [ref=e118]: Scanning
+        - generic [ref=e121]:
+          - generic [ref=e122]: "4"
+          - generic [ref=e123]: Results
+      - generic [ref=e155]:
+        - heading "CI/CD & Pipeline" [level=1] [ref=e156]
+        - generic [ref=e157]:
+          - generic [ref=e158]: CI/CD Tool
+          - group "CI/CD Tool" [ref=e159]:
+            - button "GitHub Actions" [pressed] [ref=e160] [cursor=pointer]
+            - button "CircleCI" [ref=e161] [cursor=pointer]
+            - button "Jenkins" [ref=e162] [cursor=pointer]
+            - button "None" [ref=e163] [cursor=pointer]
+            - button "Other" [ref=e164] [cursor=pointer]
+        - generic [ref=e165]:
+          - generic [ref=e166]: How often does your pipeline run?
+          - generic [ref=e167]:
+            - combobox "How often does your pipeline run?" [ref=e168] [cursor=pointer]:
+              - option "Every push" [selected]
+              - option "PR only"
+              - option "Scheduled"
+              - option "Manual"
+            - img
+        - generic [ref=e169]:
+          - generic [ref=e170]: Caching configured?
+          - generic [ref=e171]:
+            - generic [ref=e172]: "No"
+            - switch [ref=e173] [cursor=pointer]
+            - generic [ref=e175]: "Yes"
+        - generic [ref=e176]:
+          - generic [ref=e177]: Frontend Framework
+          - generic [ref=e178]:
+            - combobox "Frontend Framework" [ref=e179] [cursor=pointer]:
+              - option "React" [selected]
+              - option "Next.js"
+              - option "Vue"
+              - option "Svelte"
+              - option "None / Other"
+            - img
+        - generic [ref=e180]:
+          - button "← Back to Deployment" [ref=e181] [cursor=pointer]
+          - button "Analyze My Repo →" [ref=e182] [cursor=pointer]

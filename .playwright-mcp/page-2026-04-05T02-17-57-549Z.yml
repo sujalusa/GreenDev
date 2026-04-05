@@ -1,0 +1,55 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - link "GreenDev Coach home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]:
+          - generic [ref=e9]: ">_"
+        - generic [ref=e10]: GreenDev Coach
+      - button "Switch to dark mode" [ref=e12] [cursor=pointer]:
+        - img [ref=e13]
+    - main [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - img [ref=e18]
+          - text: Sustainability for Student Devs
+        - heading "Is your project as green as your code is good?" [level=1] [ref=e21]
+        - paragraph [ref=e22]: Paste a public GitHub repo URL and we'll analyze your code, CI/CD setup, and AWS deployment for sustainability — in under 30 seconds.
+        - generic [ref=e23]:
+          - textbox "GitHub repository URL" [ref=e26]:
+            - /placeholder: https://github.com/owner/repo
+          - button "Analyze Repo →" [disabled] [ref=e27]
+          - paragraph [ref=e28]:
+            - img [ref=e29]
+            - text: Public repos only. No code is executed.
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - text: "Avg scan: 18 sec"
+          - generic [ref=e36]:
+            - img [ref=e37]
+            - text: Public repos only
+          - generic [ref=e41]:
+            - img [ref=e42]
+            - text: Read-only access
+      - generic [ref=e44]:
+        - heading "How it works" [level=2] [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e48]:
+            - generic [ref=e49]: "1"
+            - heading "Paste your repo" [level=3] [ref=e50]
+            - paragraph [ref=e51]: Enter any public GitHub repository URL.
+          - generic [ref=e53]:
+            - generic [ref=e54]: "2"
+            - heading "Configure deployment" [level=3] [ref=e55]
+            - paragraph [ref=e56]: Tell us your AWS setup — region, compute, CI/CD.
+          - generic [ref=e58]:
+            - generic [ref=e59]: "3"
+            - heading "Get your report" [level=3] [ref=e60]
+            - paragraph [ref=e61]: Receive a sustainability score, recommendations, and a shareable AI report.
+    - contentinfo [ref=e62]: Built for AWS hackathons. GreenDev Coach © 2026
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e72]

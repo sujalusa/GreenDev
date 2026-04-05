@@ -1,0 +1,139 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e72]
+  - generic [ref=e183]:
+    - banner [ref=e184]:
+      - link "GreenDev Coach home" [ref=e185] [cursor=pointer]:
+        - /url: /
+        - img [ref=e186]:
+          - generic [ref=e189]: ">_"
+        - generic [ref=e190]: GreenDev Coach
+      - navigation "Breadcrumb" [ref=e192]:
+        - link "Home" [ref=e194] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e195]:
+          - generic [ref=e196]: /
+          - link "Configure" [ref=e197] [cursor=pointer]:
+            - /url: /analyze
+        - generic [ref=e198]:
+          - generic [ref=e199]: /
+          - generic [ref=e200]: Results
+      - generic [ref=e201]:
+        - button "Switch to dark mode" [ref=e202] [cursor=pointer]:
+          - img [ref=e203]
+        - button "New Scan" [ref=e205] [cursor=pointer]:
+          - img [ref=e206]
+          - generic [ref=e211]: New Scan
+    - main [ref=e212]:
+      - generic [ref=e213]:
+        - link "Back to Config" [ref=e214] [cursor=pointer]:
+          - /url: /analyze
+          - img [ref=e215]
+          - text: Back to Config
+        - button "← Start Over" [ref=e217] [cursor=pointer]
+      - generic [ref=e218]:
+        - generic [ref=e219]:
+          - generic [ref=e220]:
+            - generic [ref=e221]:
+              - meter [ref=e222]
+              - generic [ref=e225]:
+                - generic [ref=e226]: "6"
+                - generic [ref=e227]: /100
+            - generic [ref=e228]: High Impact
+            - paragraph [ref=e229]: Based on 6 factors analyzed
+          - generic [ref=e230]:
+            - heading "What We Found" [level=2] [ref=e231]
+            - button "HIGH CI pipeline runs on every push to all branches" [ref=e234] [cursor=pointer]:
+              - generic [ref=e235]: HIGH
+              - generic [ref=e236]: CI pipeline runs on every push to all branches
+              - img [ref=e237]
+            - button "MEDIUM No path filters — CI runs on documentation-only changes" [ref=e241] [cursor=pointer]:
+              - generic [ref=e242]: MEDIUM
+              - generic [ref=e243]: No path filters — CI runs on documentation-only changes
+              - img [ref=e244]
+            - button "LOW 5 separate workflow files detected" [ref=e248] [cursor=pointer]:
+              - generic [ref=e249]: LOW
+              - generic [ref=e250]: 5 separate workflow files detected
+              - img [ref=e251]
+            - button "MEDIUM 194 npm dependencies detected" [ref=e255] [cursor=pointer]:
+              - generic [ref=e256]: MEDIUM
+              - generic [ref=e257]: 194 npm dependencies detected
+              - img [ref=e258]
+            - button "MEDIUM 392 unoptimized image assets detected" [ref=e262] [cursor=pointer]:
+              - generic [ref=e263]: MEDIUM
+              - generic [ref=e264]: 392 unoptimized image assets detected
+              - img [ref=e265]
+        - generic [ref=e267]:
+          - generic [ref=e268]:
+            - heading "Recommendations" [level=2] [ref=e269]
+            - generic [ref=e271]:
+              - generic [ref=e272]:
+                - generic [ref=e273]: Add branch filters to CI triggers
+                - generic [ref=e274]: "Impact: HIGH"
+                - generic [ref=e275]: "Effort: LOW"
+              - paragraph [ref=e276]: Filter CI triggers to only run on main/develop branches or pull requests. This prevents wasting compute on experimental or feature branches.
+              - paragraph [ref=e277]: Saves ~0.3kg/month · $2.40/month
+              - button "See implementation guide" [ref=e278] [cursor=pointer]
+            - generic [ref=e280]:
+              - generic [ref=e281]:
+                - generic [ref=e282]: Add path filters to skip docs-only changes
+                - generic [ref=e283]: "Impact: MEDIUM"
+                - generic [ref=e284]: "Effort: LOW"
+              - paragraph [ref=e285]: Path filters prevent CI from running when only markdown, docs, or config files change — saving minutes of compute per commit.
+              - button "See implementation guide" [ref=e286] [cursor=pointer]
+            - generic [ref=e288]:
+              - generic [ref=e289]:
+                - generic [ref=e290]: Migrate always-on EC2 to AWS Lambda
+                - generic [ref=e291]: "Impact: HIGH"
+                - generic [ref=e292]: "Effort: MEDIUM"
+              - paragraph [ref=e293]: Lambda charges only for actual invocations with millisecond billing. A student project with ~50 hours of active usage per month costs ~$0.20 vs $8.50+ for an always-on t3.micro.
+              - generic [ref=e294]:
+                - img [ref=e295]
+                - generic [ref=e298]: "AWS: AWS Lambda + API Gateway"
+              - paragraph [ref=e299]: Saves ~0.8kg/month · $8.50/month
+              - button "See implementation guide" [ref=e300] [cursor=pointer]
+            - generic [ref=e302]:
+              - generic [ref=e303]:
+                - generic [ref=e304]: Move frontend to S3 + CloudFront
+                - generic [ref=e305]: "Impact: HIGH"
+                - generic [ref=e306]: "Effort: LOW"
+              - paragraph [ref=e307]: If your frontend is a React/Next.js static export, serve it from S3 + CloudFront instead of EC2. This eliminates the compute layer entirely for static assets.
+              - generic [ref=e308]:
+                - img [ref=e309]
+                - generic [ref=e312]: "AWS: S3 Static Website + CloudFront CDN"
+              - button "See implementation guide" [ref=e313] [cursor=pointer]
+            - generic [ref=e315]:
+              - generic [ref=e316]:
+                - generic [ref=e317]: Convert images to WebP and enable lazy loading
+                - generic [ref=e318]: "Impact: MEDIUM"
+                - generic [ref=e319]: "Effort: LOW"
+              - paragraph [ref=e320]: WebP is 25–35% smaller than JPEG and 26% smaller than PNG. Combined with lazy loading, this reduces initial page weight and CDN transfer costs significantly.
+              - button "See implementation guide" [ref=e321] [cursor=pointer]
+          - generic [ref=e322]:
+            - heading "Before → After" [level=3] [ref=e323]
+            - generic [ref=e324]:
+              - generic [ref=e325]: Metric
+              - generic [ref=e326]: Before
+              - generic [ref=e327]: After
+              - generic [ref=e328]:
+                - generic [ref=e329]: Cost
+                - generic [ref=e330]: $22.40
+                - generic [ref=e331]: $1.00
+              - generic [ref=e332]:
+                - generic [ref=e333]: CO₂
+                - generic [ref=e334]: 2.4kg
+                - generic [ref=e335]: 0.4kg
+              - generic [ref=e336]:
+                - generic [ref=e337]: Compute hrs
+                - generic [ref=e338]: "720"
+                - generic [ref=e339]: "48"
+              - generic [ref=e340]:
+                - generic [ref=e341]: CI runs
+                - generic [ref=e342]: "120"
+                - generic [ref=e343]: "30"
+          - button "View Full AI Report" [ref=e344] [cursor=pointer]:
+            - text: View Full AI Report
+            - img [ref=e345]

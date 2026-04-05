@@ -1,0 +1,81 @@
+- generic [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e68] [cursor=pointer]:
+    - img [ref=e69]
+  - alert [ref=e72]
+  - generic [ref=e73]:
+    - banner [ref=e74]:
+      - link "GreenDev Coach home" [ref=e75] [cursor=pointer]:
+        - /url: /
+        - img [ref=e76]:
+          - generic [ref=e79]: ">_"
+        - generic [ref=e80]: GreenDev Coach
+      - navigation "Breadcrumb" [ref=e82]:
+        - link "Home" [ref=e84] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e85]:
+          - generic [ref=e86]: /
+          - generic [ref=e87]: Configure
+      - generic [ref=e88]:
+        - button "Switch to dark mode" [ref=e89] [cursor=pointer]:
+          - img [ref=e90]
+        - button "New Scan" [ref=e92] [cursor=pointer]:
+          - img [ref=e93]
+          - generic [ref=e98]: New Scan
+    - main [ref=e99]:
+      - link "Back to Home" [ref=e100] [cursor=pointer]:
+        - /url: /
+        - img [ref=e101]
+        - text: Back to Home
+      - generic "Step 2 of 4" [ref=e104]:
+        - generic [ref=e106]:
+          - generic [ref=e107]: ✓
+          - generic [ref=e108]: Analyze
+        - generic [ref=e111]:
+          - generic [ref=e112]: "2"
+          - generic [ref=e113]: Configure
+        - generic [ref=e116]:
+          - generic [ref=e117]: "3"
+          - generic [ref=e118]: Scanning
+        - generic [ref=e121]:
+          - generic [ref=e122]: "4"
+          - generic [ref=e123]: Results
+      - generic [ref=e127]:
+        - heading "Deployment Setup" [level=1] [ref=e128]
+        - generic [ref=e129]:
+          - generic [ref=e130]: AWS Service
+          - group "AWS Service" [ref=e131]:
+            - button "EC2" [pressed] [ref=e132] [cursor=pointer]
+            - button "Lambda" [ref=e133] [cursor=pointer]
+            - button "ECS" [ref=e134] [cursor=pointer]
+            - button "Elastic Beanstalk" [ref=e135] [cursor=pointer]
+            - button "Amplify" [ref=e136] [cursor=pointer]
+            - button "Other" [ref=e137] [cursor=pointer]
+        - generic [ref=e138]:
+          - generic [ref=e139]: AWS Region
+          - generic [ref=e140]:
+            - combobox "AWS Region" [ref=e141] [cursor=pointer]:
+              - option "US East (N. Virginia)" [selected]
+              - option "US East (Ohio)"
+              - option "US West (Oregon) — Greenest"
+              - option "EU (Ireland) — Green"
+              - option "EU (Stockholm) — Greenest"
+              - option "EU (Frankfurt)"
+              - option "Asia Pacific (Singapore)"
+              - option "Asia Pacific (Tokyo)"
+              - option "Asia Pacific (Sydney)"
+              - option "Canada (Central) — Green"
+              - option "South America (São Paulo)"
+            - img
+        - generic [ref=e142]:
+          - generic [ref=e143]: Compute Type
+          - generic [ref=e144]:
+            - generic [ref=e145]: Always-on
+            - switch [ref=e146] [cursor=pointer]
+            - generic [ref=e148]: Serverless
+        - generic [ref=e149]:
+          - generic [ref=e150]: Instance Type
+          - textbox "Instance Type" [active] [ref=e152]:
+            - /placeholder: e.g. t3.micro
+        - 'button "Next: CI/CD Details →" [ref=e153] [cursor=pointer]'

@@ -198,7 +198,10 @@ export default function RecommendationsPage() {
             Action Plan
           </h1>
           <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-            {recs.length} recommendations for <span className="font-mono">{scanResult.repoName}</span> — check items off as you complete them.
+            {recs.length === 0
+              ? `No issues found in ${scanResult.repoName} — great job keeping it green!`
+              : `${recs.length} recommendation${recs.length > 1 ? 's' : ''} for ${scanResult.repoName} — check items off as you complete them.`
+            }
           </p>
         </motion.div>
 
@@ -222,22 +225,24 @@ export default function RecommendationsPage() {
         )}
 
         {/* Sort controls */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs" style={{ color: 'var(--color-text-faint)' }}>Sort by:</span>
-          {(['impact', 'effort', 'savings'] as SortMode[]).map(mode => (
-            <button
-              key={mode}
-              onClick={() => setSort(mode)}
-              className="px-3 py-1 rounded-full text-xs font-medium capitalize transition-colors"
-              style={{
-                background: sort === mode ? 'var(--color-primary)' : 'var(--color-surface-offset)',
-                color: sort === mode ? '#fff' : 'var(--color-text-muted)',
-              }}
-            >
-              {mode}
-            </button>
-          ))}
-        </div>
+        {recs.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs" style={{ color: 'var(--color-text-faint)' }}>Sort by:</span>
+            {(['impact', 'effort', 'savings'] as SortMode[]).map(mode => (
+              <button
+                key={mode}
+                onClick={() => setSort(mode)}
+                className="px-3 py-1 rounded-full text-xs font-medium capitalize transition-colors"
+                style={{
+                  background: sort === mode ? 'var(--color-primary)' : 'var(--color-surface-offset)',
+                  color: sort === mode ? '#fff' : 'var(--color-text-muted)',
+                }}
+              >
+                {mode}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Recommendation cards */}
         <div className="space-y-3">
@@ -250,9 +255,15 @@ export default function RecommendationsPage() {
             />
           ))}
           {recs.length === 0 && (
-            <Card className="p-8 text-center">
+            <Card className="p-8 text-center space-y-2">
+              <p className="text-lg font-semibold" style={{ color: 'var(--color-success)' }}>
+                ✓ Perfect Score!
+              </p>
               <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                No recommendations generated. Your repo looks great!
+                No issues detected. Your deployment is already well-optimized for sustainability.
+              </p>
+              <p className="text-xs" style={{ color: 'var(--color-text-faint)' }}>
+                Keep maintaining these best practices as your project grows!
               </p>
             </Card>
           )}
