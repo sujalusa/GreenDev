@@ -139,7 +139,46 @@ export const RECOMMENDATIONS_CATALOG: Recommendation[] = [
   },
 ];
 
-export function matchRecommendations(issues: { id: string }[]): Recommendation[] {
+export function matchRecommendations(issues: { id: string; category?: string }[]): Recommendation[] {
   const issueIds = new Set(issues.map((i) => i.id));
-  return RECOMMENDATIONS_CATALOG.filter((r) => issueIds.has(r.issueId)).slice(0, 5);
+  const issueCategories = new Set(issues.map((i) => i.category).filter(Boolean));
+
+  // First pass: exact issue ID match
+  const exact = RECOMMENDATIONS_CATALOG.filter((r) => issueIds.has(r.issueId));
+
+  if (exact.length >= 3) return exact.slice(0, 5);
+
+  // Second pass: pad with recommendations whose category overlaps with detected issues
+  const exactIds = new Set(exact.map((r) => r.id));
+
+  const categoryMap: Record<string, string[]> = {
+    'ci-cd':        ['ci-trigger-all-branches', 'ci-no-path-filter', 'ci-no-caching'],
+    'compute':      ['compute-always-on-vm', 'compute-oversized-instance', 'region-high-carbon'],
+    'docker':       ['docker-heavy-base', 'docker-no-multistage', 'docker-no-dockerignore'],
+    'assets':       ['assets-unoptimized-images', 'assets-many-deps'],
+    'storage':      ['assets-many-deps'],
+    'dependencies': ['assets-many-deps'],
+  };
+
+  const relevantIssueIds = new Set<string>();
+  issueCategories.forEach((cat) => {
+    (categoryMap[cat as string] || []).forEach((id) => relevantIssueIds.add(id));
+  });
+
+  const categoryMatches = RECOMMENDATIONS_CATALOG.filter(
+    (r) => !exactIds.has(r.id) && relevantIssueIds.has(r.issueId)
+  );
+
+  const combined = [...exact, ...categoryMatches];
+
+  // Third pass: if still short, fill with high-impact recommendations in catalog order
+  if (combined.length < 3) {
+    const combinedIds = new Set(combined.map((r) => r.id));
+    const filler = RECOMMENDATIONS_CATALOG.filter(
+      (r) => !combinedIds.has(r.id) && r.impact === 'HIGH'
+    );
+    return [...combined, ...filler].slice(0, 5);
+  }
+
+  return combined.slice(0, 5);
 }
